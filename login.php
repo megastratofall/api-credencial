@@ -1,6 +1,5 @@
 <?php
 
-// Configuración de CORS
 header("Access-Control-Allow-Origin: *"); 
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -13,7 +12,6 @@ error_reporting(E_ALL);
 // Inicia la sesión
 session_start();
 
-// Incluye el modelo y la conexión a la base de datos
 require_once "./app/Models/UserModel.php";
 require_once "./config/conexiondb.php";
 
@@ -50,7 +48,6 @@ class UserController {
             // Si se encontró el usuario, establece la variable de sesión para indicar que está autenticado
             $_SESSION['autenticado'] = true;
 
-            // Ajusta el formato de respuesta con los campos requeridos
             $response = array(
                 'success' => true,
                 'data' => array(
@@ -62,7 +59,7 @@ class UserController {
                     'orden' => $usuario['orden'],    
                     'ingre' => $usuario['ingre'],    
                     'nacim' => $usuario['nacim'],
-                    'descrip' => $descrip  // Agrega el campo descrip al array de respuesta    
+                    'descrip' => $descrip     
                 )
             );
 
@@ -71,14 +68,12 @@ class UserController {
             echo json_encode($response);
             exit;
         } else {
-            // Si no se encontró el usuario o las credenciales no son válidas, puedes mostrar un mensaje de error
             header('Content-Type: application/json');
             echo json_encode(array('success' => false, 'error' => 'Credenciales inexistentes'));
         }
     }
 }
 
-// Verifica si la solicitud es de tipo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verifica si se enviaron los datos de inicio de sesión y que no estén vacíos
     if (isset($_POST['tipdoc']) && isset($_POST['numdoc']) && isset($_POST['clave'])) {
